@@ -5,7 +5,6 @@ var express = require('express'),
     config  = require('./config'),
     routes  = require('./routes')(app);
 
-app.engine('robo', mstx.express);
 app.set('views', __dirname + '/views');
 
 app.listen(config.port);

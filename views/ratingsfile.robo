@@ -1,3 +1,0 @@
-{{#robots}}
-{{name}}={{aps}},{{battles}},{{lastupload}}
-{{/robots}}

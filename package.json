@@ -21,6 +21,7 @@
     "express": "~4.3.2",
     "mustachex": "0.0.3",
     "bookshelf": "~0.6.10",
-    "sqlite3": "~2.2.3"
+    "sqlite3": "~2.2.3",
+    "async": "~0.9.0"
   }
 }

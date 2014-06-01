@@ -3,16 +3,10 @@ var bookshelf = require('bookshelf'),
 
     db        = bookshelf.initialize(config.db);
 
-function makeCollection(model) {
-    return db.Collection.extend({
-        model: model
-    });
-}
 
 var Owner     = db.Model.extend({
     tableName: "owners",
 });
-var Owners    = makeCollection(Owner);
 
 var Bot       = db.Model.extend({
     tableName: "bots",
@@ -20,7 +14,6 @@ var Bot       = db.Model.extend({
         return this.belongsToMany(Game).through(Competitors, "bot", "game");
     }
 })
-var Bots      = makeCollection(Bot);
 
 var Game      = db.Model.extend({
     tableName: "games",
@@ -28,12 +21,10 @@ var Game      = db.Model.extend({
         return this.belongsToMany(Bot).through(Competitors, "game", "bot");
     }
 });
-var Games     = makeCollection(Game);
 
 var Battle    = db.Model.extend({
     tableName: "battles",
 });
-var Battles   = makeCollection(Battle);
 
 var Competitors = db.Model.extend({
     tableName: "competitors",

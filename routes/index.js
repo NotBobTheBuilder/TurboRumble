@@ -1,4 +1,6 @@
-var models = require('../models');
+var async  = require('async'),
+
+    models = require('../models');
 
 function validAPI(req, res, next) {
     if (req.param('version') !== "1") {
@@ -20,14 +22,56 @@ function validAPI(req, res, next) {
     );
 }
 
+function fetchColl(model, cb) {
+    function fetch(cb) { model.collection().fetch().exec(cb); }
+    if (cb === undefined)
+        return fetch;
+    fetch(cb);
+}
+
 module.exports = function(app) {
-    app.get('/ratingsfile', validAPI, function(req, res) {
-        res.render('ratingsfile.robo', {
-            robots: req.game.related('bots').map(
-                function (e) {
-                    return e.attributes;
+    app.get('/', function(req, res) {
+        async.parallel({
+                'bots': fetchColl(models.Bot),
+                'games': fetchColl(models.Game),
+                'owners': fetchColl(models.Owner)
+            }, function (err, results) {
+                res.format({
+                    'application/json': function() {
+                        res.json(results);
+                    }
+                });
+            }
+        );
+    });
+
+    app.get('/bots', function(req, res) {
+        fetchColl(models.Bot, function(err, bots) {
+            res.format({
+                'application/json': function() {
+                    res.json(bots);
                 }
-            )
+            });
+        });
+    });
+
+    app.get('/bots/:bot', function(req, res) {
+        models.Bot.forge()
+            .query(function(qb) {
+                qb.where('name', '=', req.params['bot'])
+                  .orWhere('id', '=', req.params['bot']);
+            }).fetch().exec(function(err, bot) {
+                res.json(bot);
+            });
+    });
+
+    app.get('/games', function(req, res) {
+        fetchColl(models.Game, function(err, games) {
+            res.format({
+                'application/json': function() {
+                    res.json(games);
+                }
+            });
         });
     });
 };
