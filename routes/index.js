@@ -41,6 +41,19 @@ module.exports = function(app) {
             });
     });
 
+    app.param('game', function(req, res, next, id) {
+        models.Game.forge()
+            .query(function(qb) {
+                qb.where('name', '=', id)
+                  .orWhere('id', '=', id);
+            }).fetch({
+                withRelated: ['bots']
+            }).exec(function(err, game) {
+                req.params.game = game;
+                next();
+            });
+    });
+
     app.get('/', function(req, res) {
         async.parallel({
                 'bots': fetchColl(models.Bot),
@@ -78,5 +91,9 @@ module.exports = function(app) {
                 }
             });
         });
+    });
+
+    app.get('/games/:game', function(req, res) {
+        res.json(req.params.game);
     });
 };
