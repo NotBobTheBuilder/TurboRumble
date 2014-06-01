@@ -37,7 +37,7 @@ module.exports = function(app) {
                   .orWhere('id', '=', id);
             }).fetch().exec(function(err, bot) {
                 req.params.bot = bot;
-                next()
+                next();
             });
     });
 
