@@ -30,6 +30,17 @@ function fetchColl(model, cb) {
 }
 
 module.exports = function(app) {
+    app.param('bot', function(req, res, next, id) {
+        models.Bot.forge()
+            .query(function(qb) {
+                qb.where('name', '=', id)
+                  .orWhere('id', '=', id);
+            }).fetch().exec(function(err, bot) {
+                req.params.bot = bot;
+                next()
+            });
+    });
+
     app.get('/', function(req, res) {
         async.parallel({
                 'bots': fetchColl(models.Bot),
@@ -56,13 +67,7 @@ module.exports = function(app) {
     });
 
     app.get('/bots/:bot', function(req, res) {
-        models.Bot.forge()
-            .query(function(qb) {
-                qb.where('name', '=', req.params['bot'])
-                  .orWhere('id', '=', req.params['bot']);
-            }).fetch().exec(function(err, bot) {
-                res.json(bot);
-            });
+        res.json(req.params.bot);
     });
 
     app.get('/games', function(req, res) {
