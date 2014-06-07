@@ -1,0 +1,16 @@
+<!doctype HTML>
+<html>
+    <head>
+        <meta charset=utf-8 />
+        <title>Heya</title>
+        <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    </head>
+    <body>
+        <header class="page-header">
+            <h1>All Tournaments:</h1>
+            {{#games}}
+            <h1><a href="{{url}}">{{name}}</a></h1>
+            {{/games}}
+        </header>
+    </body>
+</html>

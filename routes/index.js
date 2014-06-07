@@ -61,6 +61,9 @@ module.exports = function(app) {
                 'owners': fetchColl(models.Owner)
             }, function (err, results) {
                 res.format({
+                    'text/html': function () {
+                        res.render('index.html', results);
+                    },
                     'application/json': function() {
                         res.json(results);
                     }
