@@ -1,4 +1,6 @@
 var async  = require('async'),
+    path   = require('path'),
+    fs     = require('fs'),
 
     models = require('../models');
 
@@ -83,7 +85,33 @@ module.exports = function(app) {
     });
 
     app.get('/bots/:bot', function(req, res) {
-        res.json(req.params.bot);
+        res.format({
+            'application/json': function() {
+                res.json(req.params.bot);
+            },
+            'application/java-archive': function() {
+                res.sendfile(path.join('./bots/', req.params.bot.get('path')));
+            }
+        });
+    });
+
+    app.post('/bots/:bot/update', function(req, res) {
+        req.pipe(req.busboy);
+
+        req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+            var botFile = "bot" + req.params.bot.id + '.jar';
+
+            req.busboy.on('finish', function() {
+                req.params.bot.set('path', botFile).save().exec(
+                    function(err, bot) {
+                        res.redirect('/bots/' + req.params.bot.id);
+                    }
+                );
+            });
+
+            file.pipe(fs.createWriteStream(path.join('./bots', botFile)));
+        });
+
     });
 
     app.get('/games', function(req, res) {
