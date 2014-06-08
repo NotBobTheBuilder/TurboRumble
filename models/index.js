@@ -3,6 +3,14 @@ var bookshelf = require('bookshelf'),
 
     db        = bookshelf.initialize(config.db);
 
+var _toJSON = db.Model.prototype.toJSON;
+
+db.Model.prototype.toJSON = function(options) {
+    options = options || {};
+    options.noPivot = options.noPivot || true;
+
+    return _toJSON.call(this, options);
+};
 
 var Owner     = db.Model.extend({
     tableName: "owners",
