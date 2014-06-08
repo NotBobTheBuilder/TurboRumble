@@ -18,6 +18,13 @@ var Owner     = db.Model.extend({
 
 var Bot       = db.Model.extend({
     tableName: "bots",
+
+    toJSON: function() {
+        var json = db.Model.prototype.toJSON.call(this);
+        delete json.path;
+        return json;
+    },
+
     games: function() {
         return this.belongsToMany(Game).through(Competitors, "bot", "game");
     }
