@@ -64,6 +64,9 @@ module.exports = function(app) {
             }, function (err, results) {
                 res.format({
                     'text/html': function () {
+                        for (var k in results) {
+                            results[k] = results[k].toJSON();
+                        }
                         res.render('index.html', results);
                     },
                     'application/json': function() {
