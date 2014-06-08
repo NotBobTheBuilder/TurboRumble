@@ -86,6 +86,9 @@ module.exports = function(app) {
 
     app.get('/bots/:bot', function(req, res) {
         res.format({
+            'text/html': function() {
+                res.render("bot.html", req.params.bot);
+            },
             'application/json': function() {
                 res.json(req.params.bot);
             },

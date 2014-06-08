@@ -1,0 +1,15 @@
+<!doctype HTML>
+<html>
+    <head>
+        <meta charset=utf-8 />
+        <title>{{name}} :: RoboRumble Tournament</title>
+        <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    </head>
+    <body>
+        <form action="/bots/{{id}}/update" method=POST enctype="multipart/form-data">
+
+        <input name="bot" type="file"/>
+        <input type="submit" />
+        </form>
+    </body>
+</html>
