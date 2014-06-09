@@ -15,7 +15,8 @@ CREATE TABLE bots(
 DROP TABLE IF EXISTS games;
 CREATE TABLE games(
     id      INTEGER PRIMARY KEY AUTOINCREMENT,
-    name    NOT NULL
+    name    TEXT NOT NULL,
+    type    TEXT NOT NULL
 );
 
 DROP TABLE IF EXISTS battles;
@@ -32,5 +33,5 @@ CREATE TABLE competitors(
 );
 
 INSERT INTO bots (name, owner) VALUES ("bot1", 1);
-INSERT INTO games (name) VALUES ("game1");
+INSERT INTO games (name, type) VALUES ("game1", "1v1");
 INSERT INTO competitors (game, bot) VALUES (1, 1);
