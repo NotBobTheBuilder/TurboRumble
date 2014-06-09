@@ -33,27 +33,25 @@ function fetchColl(model, cb) {
 
 module.exports = function(app) {
     app.param('bot', function(req, res, next, id) {
-        models.Bot.forge()
-            .query(function(qb) {
-                qb.where('name', '=', id)
-                  .orWhere('id', '=', id);
-            }).fetch().exec(function(err, bot) {
-                req.params.bot = bot;
-                next();
-            });
+        models.Bot.forge({
+            name: id
+        }).fetch({
+            withRelated: ['games']
+        }).exec(function(err, bot) {
+            req.params.bot = bot;
+            next();
+        });
     });
 
     app.param('game', function(req, res, next, id) {
-        models.Game.forge()
-            .query(function(qb) {
-                qb.where('name', '=', id)
-                  .orWhere('id', '=', id);
-            }).fetch({
-                withRelated: ['bots']
-            }).exec(function(err, game) {
-                req.params.game = game;
-                next();
-            });
+        models.Game.forge({
+            name: id
+        }).fetch({
+            withRelated: ['bots']
+        }).exec(function(err, game) {
+            req.params.game = game;
+            next();
+        });
     });
 
     app.get('/', function(req, res) {
