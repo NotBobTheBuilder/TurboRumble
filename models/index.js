@@ -26,14 +26,14 @@ var Bot       = db.Model.extend({
     },
 
     games: function() {
-        return this.belongsToMany(Game).through(Competitors, "bot", "game");
+        return this.belongsToMany(Game).through(Competitor, "bot", "game");
     }
 })
 
 var Game      = db.Model.extend({
     tableName: "games",
     bots: function() {
-        return this.belongsToMany(Bot).through(Competitors, "game", "bot");
+        return this.belongsToMany(Bot).through(Competitor, "game", "bot");
     }
 });
 
@@ -41,7 +41,7 @@ var Battle    = db.Model.extend({
     tableName: "battles",
 });
 
-var Competitors = db.Model.extend({
+var Competitor = db.Model.extend({
     tableName: "competitors",
 
     game: function() {
@@ -58,5 +58,5 @@ module.exports = {
     "Bot": Bot,
     "Game": Game,
     "Battle": Battle,
-    "Competitors": Competitors,
+    "Competitor": Competitor,
 };
