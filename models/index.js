@@ -28,7 +28,7 @@ var Bot       = db.Model.extend({
     games: function() {
         return this.belongsToMany(Game).through(Competitor, "bot", "game");
     }
-})
+});
 
 var Game      = db.Model.extend({
     tableName: "games",
