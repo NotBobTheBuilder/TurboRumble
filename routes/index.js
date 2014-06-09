@@ -36,7 +36,7 @@ module.exports = function(app) {
         models.Bot.forge({
             name: id
         }).fetch({
-            withRelated: ['games']
+            withRelated: ['games', 'battles']
         }).exec(function(err, bot) {
             req.params.bot = bot;
             next();
@@ -47,7 +47,7 @@ module.exports = function(app) {
         models.Game.forge({
             name: id
         }).fetch({
-            withRelated: ['bots']
+            withRelated: ['bots', 'battles', 'battles.results']
         }).exec(function(err, game) {
             req.params.game = game;
             next();

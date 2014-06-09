@@ -22,7 +22,19 @@ CREATE TABLE games(
 DROP TABLE IF EXISTS battles;
 CREATE TABLE battles(
     id      INTEGER PRIMARY KEY AUTOINCREMENT,
-    name    NOT NULL
+    game    INTEGER REFERENCES games,
+    numbots INTEGER
+);
+
+DROP TABLE IF EXISTS battle_results;
+CREATE TABLE battle_results(
+    id      INTEGER PRIMARY KEY AUTOINCREMENT,
+    battle  INTEGER REFERENCES battles,
+    bot     INTEGER REFERENCES bots,
+    rank    INTEGER NOT NULL,
+    score   INTEGER NOT NULL,
+    damage  INTEGER NOT NULL,
+    health  INTEGER NOT NULL
 );
 
 DROP TABLE IF EXISTS competitors;
@@ -33,5 +45,12 @@ CREATE TABLE competitors(
 );
 
 INSERT INTO bots (name, owner) VALUES ("bot1", 1);
+INSERT INTO bots (name, owner) VALUES ("bot2", 1);
 INSERT INTO games (name, type) VALUES ("game1", "1v1");
 INSERT INTO competitors (game, bot) VALUES (1, 1);
+INSERT INTO competitors (game, bot) VALUES (1, 2);
+
+INSERT INTO battles (game, numbots) VALUES (1, 2);
+INSERT INTO battle_results(battle, bot, rank, score, damage, health) VALUES
+            (1, 1, 1, 100, 100, 80),
+            (1, 2, 2, 20, 20, 0);
