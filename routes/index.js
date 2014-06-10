@@ -60,6 +60,7 @@ module.exports = function(app) {
                 'games': fetchColl(models.Game),
                 'owners': fetchColl(models.Owner)
             }, function (err, results) {
+                results.url = req.protocol + '://' + req.get('host') + '/';
                 res.format({
                     'text/html': function () {
                         for (var k in results) {
