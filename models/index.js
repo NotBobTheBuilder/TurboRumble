@@ -9,7 +9,11 @@ db.Model.prototype.toJSON = function(options) {
     options = options || {};
     options.noPivot = options.noPivot || true;
 
-    return _toJSON.call(this, options);
+    var json = _toJSON.call(this, options);
+    if (this instanceof db.Model) {
+        json.url = "/" + this.tableName + "/" + json.name;
+    }
+    return json;
 };
 
 var Owner     = db.Model.extend({
