@@ -63,10 +63,7 @@ module.exports = function(app) {
                 results.url = req.protocol + '://' + req.get('host') + '/';
                 res.format({
                     'text/html': function () {
-                        for (var k in results) {
-                            results[k] = results[k].toJSON();
-                        }
-                        res.render('index.html', results);
+                        res.render('index.html', JSON.stringify(results));
                     },
                     'application/json': function() {
                         res.json(results);

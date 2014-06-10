@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS owners;
 CREATE TABLE owners(
     id      INTEGER PRIMARY KEY AUTOINCREMENT,
-    name    NOT NULL
+    name    TEXT NOT NULL
 );
 
 DROP TABLE IF EXISTS bots;
