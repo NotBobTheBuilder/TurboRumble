@@ -9,6 +9,7 @@ CREATE TABLE bots(
     id      INTEGER PRIMARY KEY AUTOINCREMENT,
     name    TEXT NOT NULL,
     path    TEXT,
+    size    INTEGER,
     owner   INTEGER REFERENCES owners
 );
 
