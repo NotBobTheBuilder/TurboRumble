@@ -17,7 +17,10 @@ DROP TABLE IF EXISTS games;
 CREATE TABLE games(
     id      INTEGER PRIMARY KEY AUTOINCREMENT,
     name    TEXT NOT NULL,
-    type    TEXT NOT NULL
+    type    TEXT NOT NULL,
+    fieldw  INTEGER DEFAULT 800,
+    fieldh  INTEGER DEFAULT 600,
+    rounds  INTEGER DEFAULT 10
 );
 
 DROP TABLE IF EXISTS battles;
