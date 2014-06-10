@@ -34,7 +34,7 @@ CREATE TABLE battle_results(
     rank    INTEGER NOT NULL,
     score   INTEGER NOT NULL,
     damage  INTEGER NOT NULL,
-    health  INTEGER NOT NULL
+    firsts  INTEGER NOT NULL
 );
 
 DROP TABLE IF EXISTS competitors;
@@ -51,6 +51,6 @@ INSERT INTO competitors (game, bot) VALUES (1, 1);
 INSERT INTO competitors (game, bot) VALUES (1, 2);
 
 INSERT INTO battles (game, numbots) VALUES (1, 2);
-INSERT INTO battle_results(battle, bot, rank, score, damage, health) VALUES
+INSERT INTO battle_results(battle, bot, rank, score, damage, firsts) VALUES
             (1, 1, 1, 100, 100, 80),
             (1, 2, 2, 20, 20, 0);
