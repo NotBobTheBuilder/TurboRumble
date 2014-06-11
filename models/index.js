@@ -11,7 +11,7 @@ db.Model.prototype.toJSON = function(options) {
 
     var json = _toJSON.call(this, options);
     if (this instanceof db.Model) {
-        json.url = "/" + this.tableName + "/" + json.name;
+        json.url = this.tableName + "/" + json.name;
     }
     return json;
 };

@@ -162,7 +162,7 @@ module.exports = function(app) {
         ).exec(function(err, data) {
             res.json(data.map(function(e) {
                 return [{
-                    url: "/bots/" + e.A,
+                    url: "bots/" + e.A,
                     name: e.A
                 }, {
                     url: "bots/" + e.B,
