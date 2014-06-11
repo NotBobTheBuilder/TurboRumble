@@ -129,4 +129,51 @@ module.exports = function(app) {
     app.get('/games/:game', function(req, res) {
         res.json(req.params.game);
     });
+
+    app.get('/games/:game/battlequeue', function(req, res) {
+        models._knex(
+            'bots as A'
+        ).join(
+            'bots as B', 'A.id', '!=', 'B.id'
+        ).select(
+            'A.name as A', 'B.name as B'
+        ).whereIn(
+            'B.id', function() {
+                this.select('bot as id')
+                    .from('competitors')
+                    .where('game', '=', req.params.game.id)
+            }
+        ).whereIn(
+            'A.id', function() {
+                this.select('bot as id')
+                    .from('competitors')
+                    .where('game', '=', req.params.game.id)
+            }
+        ).whereRaw(
+            [
+                 "NOT EXISTS (SELECT * FROM battle_results AS resultsA",
+                 "WHERE resultsA.bot = A.id",
+                 "AND EXISTS (",
+                     "SELECT * FROM battle_results as resultsB",
+                     "WHERE resultsB.bot = B.id",
+                     "AND resultsB.battle = resultsA.battle",
+                 "))"
+            ].join(" ")
+        ).exec(function(err, data) {
+            res.json(data.map(function(e) {
+                return [{
+                    url: "/bots/" + e.A,
+                    name: e.A
+                }, {
+                    url: "bots/" + e.B,
+                    name: e.B
+                }]
+            }));
+        })
+        // TODO: get (first) bot (A) for which there exists minimum number of
+        //       battle results.
+        //       Make list of bots who have fought A fewest times.
+        //       Make pairs of each of those bots & A
+        //       Send to client who will run fights
+    });
 };

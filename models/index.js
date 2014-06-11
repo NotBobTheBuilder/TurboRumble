@@ -94,4 +94,5 @@ module.exports = {
     "Game": Game,
     "Battle": Battle,
     "Competitor": Competitor,
+    "_knex": db.knex
 };
